@@ -45,9 +45,9 @@ jobs:
       - name: Install Ansible
         run: |
           sudo apt update
-          sudo apt install -y python3-pip sshpass
-          python3 -m pip install --upgrade pip
-          pip3 install ansible==8.11.0
+          sudo apt install -y software-properties-common
+          sudo add-apt-repository --yes --update ppa:ansible/ansible
+          sudo apt install -y ansible sshpass
 
       - name: Run Ansible Playbook (deploy)
         env:
