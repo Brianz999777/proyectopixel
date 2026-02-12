@@ -16,7 +16,7 @@ jobs:
           node-version: '18'
       - name: Install deps & run tests
         run: |
-          cd app
+          #cd app
           # Usamos install en lugar de ci si no tienes el archivo package-lock.json aún
           npm install 
           # npm test # Descomenta esto cuando tengas tests reales
