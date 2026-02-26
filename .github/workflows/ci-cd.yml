@@ -47,8 +47,6 @@ jobs:
           #echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           #chmod 600 ~/.ssh/id_rsa
           mkdir -p ~/.ssh
-          # Usamos comillas para asegurar que la variable se lea bien
-          ssh-keyscan -p 80 -H "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts || true
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
