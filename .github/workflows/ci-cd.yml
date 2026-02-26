@@ -46,10 +46,9 @@ jobs:
           #ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
           #echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           #chmod 600 ~/.ssh/id_rsa
-          - name: Prepare SSH
           mkdir -p ~/.ssh
-          # Añadimos "|| true" para que el flujo no se detenga si el escaneo falla
-          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts || true
+          # Usamos comillas para asegurar que la variable se lea bien
+          ssh-keyscan -p 80 -H "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts || true
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
