@@ -9,7 +9,7 @@
 
 - name: Checkout app code from repo
   git:
-    repo: 'https://github.com/Brianz999777/proyecto.git'
+    repo: 'https://github.com/Brianz999777/proyectopixel.git'
     dest: /home/deploy/apps/myapp
     version: "{{ git_ref | default('main') }}"
     force: yes

@@ -3,5 +3,6 @@ all:
     web1:
     #esto tomara el valor de la secret
       ansible_host: "{{ lookup('env','REMOTE_HOST') }}"
+      ansible_port: 80
       ansible_user: deploy
       ansible_python_interpreter: /usr/bin/python3
