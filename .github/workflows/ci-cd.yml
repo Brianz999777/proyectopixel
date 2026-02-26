@@ -42,13 +42,11 @@ jobs:
 
       - name: Prepare SSH
         run: |
-          #mkdir -p ~/.ssh
-          #ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
-          #echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          #chmod 600 ~/.ssh/id_rsa
           mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          
 
       - name: Install Ansible
         run: |
@@ -57,25 +55,16 @@ jobs:
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install -y ansible sshpass
 
-      #- name: Run Ansible Playbook (deploy)
-        #env:
-          #GIT_REF: ${{ github.ref_name }}
-          # Inyectamos la IP para que el inventario la lea
-          #REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
-        #run: |
-          #cd ansible
-          #ansible-playbook playbooks/deploy.yml \
-          #-i inventories/production.yml \
-          #--ssh-common-args='-o StrictHostKeyChecking=no' \
-          #--private-key ~/.ssh/id_rsa
-          
       - name: Run Ansible Playbook (deploy)
         env:
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          ANSIBLE_HOST_KEY_CHECKING: "False"
+          GIT_REF: ${{ github.ref_name }}
+           Inyectamos la IP para que el inventario la lea
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
         run: |
           cd ansible
           ansible-playbook playbooks/deploy.yml \
-            -i inventories/production.yml \
-            --ssh-common-args='-o StrictHostKeyChecking=no' \
-            --private-key ~/.ssh/id_rsa
+          -i inventories/production.yml \
+          --ssh-common-args='-o StrictHostKeyChecking=no' \
+          --private-key ~/.ssh/id_rsa
+
+      
