@@ -42,11 +42,16 @@ jobs:
 
       - name: Prepare SSH
         run: |
+          #mkdir -p ~/.ssh
+          #ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+          #echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          #chmod 600 ~/.ssh/id_rsa
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+          # Añadimos "|| true" para que si falla el escaneo, el proceso no se detenga
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts || true
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
+          
       - name: Install Ansible
         run: |
           sudo apt update
