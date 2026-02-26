@@ -57,14 +57,25 @@ jobs:
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install -y ansible sshpass
 
+      #- name: Run Ansible Playbook (deploy)
+        #env:
+          #GIT_REF: ${{ github.ref_name }}
+          # Inyectamos la IP para que el inventario la lea
+          #REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
+        #run: |
+          #cd ansible
+          #ansible-playbook playbooks/deploy.yml \
+          #-i inventories/production.yml \
+          #--ssh-common-args='-o StrictHostKeyChecking=no' \
+          #--private-key ~/.ssh/id_rsa
+          
       - name: Run Ansible Playbook (deploy)
         env:
-          GIT_REF: ${{ github.ref_name }}
-          # Inyectamos la IP para que el inventario la lea
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
           cd ansible
           ansible-playbook playbooks/deploy.yml \
-          -i inventories/production.yml \
-          --ssh-common-args='-o StrictHostKeyChecking=no' \
-          --private-key ~/.ssh/id_rsa
+            -i inventories/production.yml \
+            --ssh-common-args='-o StrictHostKeyChecking=no' \
+            --private-key ~/.ssh/id_rsa
